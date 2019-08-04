@@ -1,41 +1,56 @@
-const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	mode: 'development',
-	entry: './src/index.js',
-	devServer: {
-      contentBase: './dist',
-      hot: true
-	},
-	output: {
-		filename: 'index.js',
-		path: path.resolve(__dirname, 'dist/')
-	},
-	module: {
-		rules: [
-		  {
-		  	test: /\.css$/,
-		  	use: [
-		  	  'style-loader',
-		  	  'css-loader'
-		  	]
-		  },
-		  {
-		  	test: /\.(png|svg|jpg|gif)$/,
-		  	use: [
-		  	  'file-loader'
-		  	]
-		  }
-		]
-	},
-	plugins: [
-	  new CleanWebpackPlugin(),
-	  new htmlWebpackPlugin({
-	  	title: '管理输出'
-	  }),
-	  new webpack.HotModuleReplacementPlugin()
-	]
-}
+  devtool: isProduction ? "source-map" : "cheap-module-eval-source-map",
+  mode: "development",
+  entry: "./src/app.js",
+  devServer: {
+    contentBase: "./dist",
+    hot: true
+  },
+  output: {
+    filename: "index.js",
+    path: path.resolve(__dirname, "dist/")
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ["file-loader"]
+      },
+      {
+        test: /\.(j|t)sx?$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new htmlWebpackPlugin({
+      title: "some-case",
+      template: path.resolve(__dirname, "./src/app.ejs")
+    }),
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  resolve: {
+    modules: [
+      "node_modules",
+      path.resolve(__dirname, "src")
+    ],
+    alias: {
+      "@": path.resolve(__dirname, "./src")
+    }
+  }
+};
