@@ -5,7 +5,7 @@ import Header from '@/components/Header/index.js';
 export default class Home extends React.Component {
   render() {
     return (
-      <div className="container">
+      <div className="page">
         <Header />
       </div>
     );

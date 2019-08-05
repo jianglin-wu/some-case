@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js && workbox injectManifest",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "start": "cross-env NODE_ENV=development webpack-dev-server --open"
   },
   "keywords": [],
@@ -29,6 +29,7 @@
     "style-loader": "^0.23.1",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.5.1"
+    "webpack-dev-server": "^3.5.1",
+    "workbox-webpack-plugin": "^4.3.1"
   }
 }
