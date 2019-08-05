@@ -8,6 +8,8 @@ export default class Header extends React.Component {
         <a href="/">Home</a>
         {' '}
         <a href="#Archives">Archives</a>
+        {' '}
+        <a style={{ float: 'right' }} href="#About">About</a>
       </nav>
     );
   }

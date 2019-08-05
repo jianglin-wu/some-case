@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  devtool: isProduction ? "cheap-module-source-map" : "cheap-module-eval-source-map",
+  devtool: isProduction ? "hidden-source-map" : "cheap-module-eval-source-map",
   mode: isProduction? "production" : "development",
   entry: "./src/app.js",
   devServer: {
