@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === 'production';
+const publicPath = isProduction ? 'http://psyduck-de-MacBook-Pro.local:8080/' : '/';
 
 module.exports = {
   devtool: isProduction ? "hidden-source-map" : "cheap-module-eval-source-map",
@@ -17,7 +18,7 @@ module.exports = {
   output: {
     filename: "index.js",
     path: path.resolve(__dirname, "dist/"),
-    publicPath: isProduction ? 'http://psyduck-de-MacBook-Pro.local:8080/' : '/',
+    publicPath,
   },
   module: {
     rules: [
@@ -48,26 +49,29 @@ module.exports = {
     new WorkboxPlugin.InjectManifest({
       swDest: path.resolve(__dirname, "dist/sw.js"),
       swSrc: path.resolve(__dirname, "src/sw.js"),
-      globPatterns: [
-        '**/*.html',
-        '**/*.{js,css}',
-      ],
-      // exclude: [/\.html$/, /\.map$/],
-      modifyURLPrefix: { // 静态资源 CDN 路径处理，与业务相关
-        '**/*.html': `/_next/8sdf78ud8s8888/app.js`
-      },
-      manifestTransforms: [
-        // Basic transformation to remove a certain URL:
-        (originalManifest) => {
-          console.log('originalManifest:', originalManifest);
-          const manifest = originalManifest.filter(
-            (entry) => entry.url !== 'ignored.html');
-          // Optionally, set warning messages.
-          const warnings = [];
-          return {manifest, warnings};
-        }
-      ]
-    })
+      importWorkboxFrom: 'local',
+    }),
+    // new WorkboxPlugin.GenerateSW({
+    //   swDest: 'sw.js',
+    //   clientsClaim: true,
+    //   skipWaiting: true,
+    //   importWorkboxFrom: 'local',
+    //   navigateFallback: `${publicPath}index.html`,
+    //   runtimeCaching: [
+    //     {
+    //       urlPattern: new RegExp('https://image-cdn.hahhub.com'),
+    //       handler: 'CacheFirst'
+    //     },
+    //     {
+    //       urlPattern: new RegExp('https://blog-cdn.hahhub.com'),
+    //       handler: 'StaleWhileRevalidate'
+    //     },
+    //     {
+    //       urlPattern: /appconfig\.js$/,
+    //       handler: 'NetworkFirst'
+    //     },
+    //   ]
+    // }),
   ],
   resolve: {
     modules: [

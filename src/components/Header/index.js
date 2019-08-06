@@ -7,9 +7,8 @@ export default class Header extends React.Component {
       <nav className="header">
         <div className="container">
           <a href="/">Home</a>
-          {' '}
-          <a href="#Archives">Archives</a>
-          {' '}
+          {' | '}
+          <a href="#Archives">Archives++</a>
           <a style={{ float: 'right' }} href="#About">About</a>
         </div>
       </nav>
