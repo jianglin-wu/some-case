@@ -8,36 +8,17 @@ import serve from 'koa-static';
 import prettier from 'prettier';
 import App from './pages';
 
-const usePrettier = !false;
+const usePrettier = false;
 const app = new Koa();
-const genHtml = contentStr => {
-  return `
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>some-case</title>
-  </head>
-  <body>
-    <div id="root">${contentStr}</div>
-    <script type="text/javascript" src="index.js"></script>
-  </body>
-</html>
-`.trim();
-};
 
 const main = ctx => {
   const context = {};
-  let htmlContent = ReactDOMServer.renderToString(
+  let jsx = ReactDOMServer.renderToString(
     <StaticRouter location={ctx.request.url} context={context}>
       <App />
     </StaticRouter>,
   );
-  htmlContent = genHtml(htmlContent);
-  if (usePrettier) {
-    htmlContent = prettier.format(htmlContent, { parser: 'html' });
-  }
-  ctx.response.body = htmlContent;
+  ctx.response.body = htmlTemplate(jsx);
 };
 
 // 监控状态
@@ -59,8 +40,28 @@ app.use(serve(path.resolve(__dirname, '../dist')), {
 // SSR
 app.use(route.get('/*', main));
 
-
-
 app.listen(3000, () => {
   console.log('http://localhost:3000');
 });
+
+function htmlTemplate(reactDom, reduxState, helmetData) {
+  let htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>some-case</title>
+</head>
+<body>
+  <div id="root">${reactDom}</div>
+  <script src="/index.js"></script>
+</body>
+</html>
+  `.trim();
+
+  if (usePrettier) {
+    htmlContent = prettier.format(htmlContent, { parser: 'html' });
+  }
+
+  return htmlContent;
+}

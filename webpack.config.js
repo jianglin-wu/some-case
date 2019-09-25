@@ -50,7 +50,6 @@ module.exports = {
     new CleanWebpackPlugin(),
     new htmlWebpackPlugin({
       title: 'some-case',
-      template: path.resolve(__dirname, './src/app.ejs'),
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
