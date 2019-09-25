@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Header from '@/components/Header/index.js';
 
 export default class About extends React.Component {
   render() {
     return (
-      <div>
+      <Fragment>
         <Header />
         <p>about</p>
-      </div>
+      </Fragment>
     );
   }
 }

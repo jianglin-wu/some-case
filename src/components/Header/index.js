@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './index.css';
 
-export default class Header extends React.Component {
+export default class Header extends React.PureComponent {
   render() {
     return (
-      <div className={styles.header}>
+      <header className={styles.header}>
         <nav className={styles.container}>
           <Link to="/">Home</Link> <Link to="/about">About</Link>
         </nav>
-      </div>
+      </header>
     );
   }
 }

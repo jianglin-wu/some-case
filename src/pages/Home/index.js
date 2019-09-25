@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Header from '@/components/Header/index.js';
 
 export default class Home extends React.Component {
@@ -17,11 +17,11 @@ export default class Home extends React.Component {
   render() {
     const { count } = this.state;
     return (
-      <div>
+      <Fragment>
         <Header />
         <button onClick={this.handleClick}>btn</button>
         <span>{count}</span>
-      </div>
+      </Fragment>
     );
   }
 }

@@ -5,7 +5,7 @@ import './index.css';
 import Home from './Home';
 import About from './About';
 
-export default () => {
+const App = () => {
   return (
     <Switch>
       <Route path="/about" component={About} />
@@ -13,3 +13,5 @@ export default () => {
     </Switch>
   );
 };
+
+export default App;
