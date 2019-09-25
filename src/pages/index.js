@@ -1,28 +1,15 @@
 import React from 'react';
-import styles from './index.css';
-import Header from '@/components/Header/index.js';
+import { Switch, Route } from 'react-router-dom';
+import './index.css';
 
-export default class Home extends React.Component {
-  state = {
-    count: 0,
-  }
+import Home from './Home';
+import About from './About';
 
-  handleClick = () => {
-    this.setState(state => {
-      return {
-        count: state.count + 1,
-      };
-    });
-  }
-
-  render() {
-    const { count } = this.state;
-    return (
-      <div>
-        <Header />
-        <button onClick={this.handleClick}>btn</button>
-        <span>{count}</span>
-      </div>
-    );
-  }
-}
+export default () => {
+  return (
+    <Switch>
+      <Route path="/about" component={About} />
+      <Route path="/" component={Home} />
+    </Switch>
+  );
+};

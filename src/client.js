@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './app.css';
-import Home from './pages/index.js';
+import { BrowserRouter } from 'react-router-dom';
+import App from './pages';
 
-ReactDOM.hydrate(<Home />, document.querySelector('#root'));
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.querySelector('#root'),
+);
+// ReactDOM.hydrate(<Home />, document.querySelector('#root'));

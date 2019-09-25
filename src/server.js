@@ -4,9 +4,10 @@ import ReactDOMServer from 'react-dom/server';
 import Koa from 'koa';
 import route from 'koa-route';
 import serve from 'koa-static';
-// import prettier from 'prettier';
+import prettier from 'prettier';
 import Home from './pages/index.js';
 
+const usePrettier = false;
 const app = new Koa();
 const genHtml = contentStr => {
   return `
@@ -25,17 +26,29 @@ const genHtml = contentStr => {
 };
 
 const main = ctx => {
+  console.log(ctx.request.url);
   let htmlContent = ReactDOMServer.renderToString(<Home />);
   htmlContent = genHtml(htmlContent);
-  // htmlContent = prettier.format(htmlContent, { parser: 'html' });
+  if (usePrettier) {
+    htmlContent = prettier.format(htmlContent, { parser: 'html' });
+  }
   ctx.response.body = htmlContent;
 };
 
-app.use(route.get('/', main));
-app.use(route.get('/status', ctx => {
-  ctx.response.body = 'ok!';
-}));
-app.use(serve(path.resolve(__dirname, '../dist')));
+// 监控状态
+app.use(
+  route.get('/status', ctx => {
+    ctx.response.body = 'ok!';
+  }),
+);
+
+// SPA 静态文件
+app.use(serve(path.resolve(__dirname, '../dist')), {
+  extensions: ['.js', '.css', '.png', '.jpeg', '.jpg', 'gif'],
+});
+
+// SSR
+app.use(route.get('/*', main));
 
 app.listen(3000, () => {
   console.log('http://localhost:3000');
