@@ -1,6 +1,9 @@
+/* global workbox */
 if (workbox) {
+  // eslint-disable-next-line no-console
   console.log(`Yay! Workbox is loaded 🎉`);
 } else {
+  // eslint-disable-next-line no-console
   console.log(`Boo! Workbox didn't load 😬`);
 }
 
@@ -14,14 +17,12 @@ workbox.core.setCacheNameDetails({
 workbox.core.clientsClaim();
 workbox.core.skipWaiting();
 
+// eslint-disable-next-line
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
-workbox.routing.registerNavigationRoute(
-  workbox.precaching.getCacheKeyForURL('/index.html'),
-  {
-    blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/],
-  },
-);
+workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL('/index.html'), {
+  blacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
+});
 
 workbox.routing.registerRoute(
   /https:\/\/image-cdn.hahhub.com/,
