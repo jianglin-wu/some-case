@@ -1,13 +1,17 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import './index.css';
-import Header from '@/components/Header/index.js';
 
-export default class Home extends React.Component {
-  render() {
-    return (
-      <div className="page">
-        <Header />
-      </div>
-    );
-  }
-}
+import Home from './Home';
+import About from './About';
+
+const App = () => {
+  return (
+    <Switch>
+      <Route path="/about" component={About} />
+      <Route path="/" component={Home} />
+    </Switch>
+  );
+};
+
+export default App;

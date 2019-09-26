@@ -1,9 +1,16 @@
 .header {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #666;
+  background-size: 100%;
+  background: url(https://blog-cdn.hahhub.com/css/images/banner.jpg) center #000;
 }
 
-.header a {
-  color: #f00;
-  line-height: 2;
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  min-height: 300px;
+}
+
+.container a {
+  color: #fff;
   text-decoration: none;
 }

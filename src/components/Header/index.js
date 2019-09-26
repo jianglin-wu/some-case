@@ -1,17 +1,18 @@
 import React from 'react';
-import './index.css';
+import { Link } from 'react-router-dom';
+import styles from './index.css';
 
-export default class Header extends React.Component {
+export default class Header extends React.PureComponent {
   render() {
     return (
-      <nav className="header">
-        <div className="container">
-          <a href="/">Home</a>
+      <header className={styles.header}>
+        <nav className={styles.container}>
+          <Link to="/">Home</Link>
           {' | '}
-          <a href="#Archives">Archives++</a>
-          <a style={{ float: 'right' }} href="#About">About</a>
-        </div>
-      </nav>
+          <Link to="/archives">Archives</Link>
+          <Link style={{ float: 'right' }} to="/about">About</Link>
+        </nav>
+      </header>
     );
   }
 }

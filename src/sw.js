@@ -1,4 +1,3 @@
-
 if (workbox) {
   console.log(`Yay! Workbox is loaded 🎉`);
 } else {
@@ -7,23 +6,22 @@ if (workbox) {
 
 workbox.setConfig({ debug: true });
 workbox.core.setCacheNameDetails({
-  prefix: "workbox-test",
-  suffix: "v3",
-  precache: "custom-precache-name",
-  runtime: "custom-runtime-name"
+  prefix: 'workbox-test2',
+  suffix: 'v3.1.1',
+  precache: 'custom-precache-name',
+  runtime: 'custom-runtime-name',
 });
 workbox.core.clientsClaim();
+workbox.core.skipWaiting();
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
-self.addEventListener("message", event => {
-  if (event.data === "skipWaiting") {
-    console.log("receive skipWaiting message");
-    workbox.core.skipWaiting();
-  }
-});
-
-workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("http://psyduck-de-MacBook-Pro.local:8080/index.html"));
+workbox.routing.registerNavigationRoute(
+  workbox.precaching.getCacheKeyForURL('/index.html'),
+  {
+    blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/],
+  },
+);
 
 workbox.routing.registerRoute(
   /https:\/\/image-cdn.hahhub.com/,
@@ -34,15 +32,11 @@ workbox.routing.registerRoute(
       }),
     ],
   }),
-  "GET"
+  'GET',
 );
 workbox.routing.registerRoute(
   /https:\/\/blog-cdn.hahhub.com/,
   new workbox.strategies.StaleWhileRevalidate(),
-  "GET"
+  'GET',
 );
-workbox.routing.registerRoute(
-  /appconfig\.js$/,
-  new workbox.strategies.NetworkFirst(),
-  "GET"
-);
+workbox.routing.registerRoute(/appconfig\.js$/, new workbox.strategies.NetworkFirst(), 'GET');
