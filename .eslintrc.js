@@ -28,6 +28,6 @@ module.exports = {
     'react/button-has-type': 1,
     'react/state-in-constructor': [1, 'always'],
     'react/jsx-fragments': [2, 'element'],
-    'react/jsx-one-expression-per-line': [1, { allow: 'single-child' }],
+    'react/jsx-one-expression-per-line': [0], // 与 prettier 规则冲突
   },
 };

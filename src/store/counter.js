@@ -1,12 +1,14 @@
 const incrementType = 'INCREMENT';
 const decrementType = 'DECREMENT';
 
-export const incrementAction = () => ({
-  type: incrementType,
-});
-export const decrementAction = () => ({
-  type: decrementType,
-});
+export const actionCreators = {
+  increment: () => ({
+    type: incrementType,
+  }),
+  decrement: () => ({
+    type: decrementType,
+  }),
+};
 
 export default (state = 0, action) => {
   switch (action.type) {
