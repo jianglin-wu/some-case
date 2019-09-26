@@ -18,7 +18,7 @@ const main = ctx => {
       <App />
     </StaticRouter>,
   );
-  ctx.response.body = htmlTemplate(jsx);
+  ctx.response.body = renderPage(jsx);
 };
 
 // 监控状态
@@ -44,7 +44,7 @@ app.listen(3000, () => {
   console.log('http://localhost:3000');
 });
 
-function htmlTemplate(reactDom, reduxState, helmetData) {
+function renderPage(reactDom, reduxState, helmetData) {
   let htmlContent = `
 <!DOCTYPE html>
 <html>

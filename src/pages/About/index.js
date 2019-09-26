@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Header from '@/components/Header/index.js';
+import Header from '@/components/Header';
 
 export default class About extends React.Component {
   render() {

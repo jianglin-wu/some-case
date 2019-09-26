@@ -11,7 +11,7 @@ const publicPath = '/';
 module.exports = {
   devtool: isProduction ? 'hidden-source-map' : 'cheap-module-source-map',
   mode: isProduction ? 'production' : 'development',
-  entry: './src/client.js',
+  entry: ['react-hot-loader/patch', './src/client.js'],
   devServer: {
     historyApiFallback: true,
     contentBase: './client',
@@ -54,7 +54,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new htmlWebpackPlugin({
       title: 'some-case',
-      template: path.resolve(__dirname, './src/document.ejs'),
+      template: path.resolve(__dirname, './src/pages/document.ejs'),
     }),
     new webpack.HotModuleReplacementPlugin(),
     new WorkboxPlugin.InjectManifest({
@@ -88,6 +88,7 @@ module.exports = {
     modules: ['node_modules', path.resolve(__dirname, 'src')],
     alias: {
       '@': path.resolve(__dirname, './src'),
+      'react-dom': '@hot-loader/react-dom',
     },
   },
 };

@@ -7,16 +7,9 @@ export default class Home extends React.Component {
   render() {
     return (
       <Fragment>
-        <Header />
+        <Header title="页面没找到" />
         <div className={stylesCommon.container}>
-          <ul>
-            <li>
-              <Link to="/state">State Demo</Link>
-            </li>
-            <li>
-              <Link to="/store">Store Demo</Link>
-            </li>
-          </ul>
+          <Link to="/">回到首页</Link>
         </div>
       </Fragment>
     );

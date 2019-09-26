@@ -2,15 +2,18 @@
   background-color: #666;
   background-size: 100%;
   background: url(https://blog-cdn.hahhub.com/css/images/banner.jpg) center #000;
-}
-
-.container {
-  width: 1200px;
-  margin: 0 auto;
   min-height: 300px;
 }
 
-.container a {
-  color: #fff;
+.nav a {
+  color: #ccc;
   text-decoration: none;
+  font-size: 14px;
+  line-height: 60px;
+}
+
+.title {
+  color: #fff;
+  text-align: center;
+  line-height: 200px;
 }
