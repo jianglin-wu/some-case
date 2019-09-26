@@ -93,14 +93,6 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
-export function unregister() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.unregister();
-    });
-  }
-}
-
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -131,6 +123,14 @@ export function register(config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
+    });
+  }
+}
+
+export function unregister() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(registration => {
+      registration.unregister();
     });
   }
 }

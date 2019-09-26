@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './redux/store';
+import createStore from './store/create';
 import * as serviceWorker from './sw-register';
 import App from './pages';
 
@@ -22,12 +22,17 @@ serviceWorker.register({
   },
 });
 
-ReactDOM.render(
-  <Provider store={store}>
+// eslint-disable-next-line no-undef
+const runtimeTarget = (RUNTIME_TARGET || '').toLocaleLowerCase();
+const render = runtimeTarget === 'ssr' ? ReactDOM.hydrate : ReactDOM.render;
+// eslint-disable-next-line no-underscore-dangle
+const preloadedState = window.__PRELOADED_STATE__ || {};
+
+render(
+  <Provider store={createStore(preloadedState)}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>,
   document.querySelector('#root'),
 );
-// ReactDOM.hydrate(<Home />, document.querySelector('#root'));

@@ -2,14 +2,17 @@ import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
+import { Provider as ReduxProvider } from 'react-redux';
+import serialize from 'serialize-javascript';
 import Koa from 'koa';
 import route from 'koa-route';
 import serve from 'koa-static';
 import prettier from 'prettier';
 import App from './pages';
+import createStore from './store/create';
 
 const usePrettier = false;
-const renderPage = reactDom => {
+const renderPage = (reactDom, reduxState) => {
   let htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -19,6 +22,9 @@ const renderPage = reactDom => {
 </head>
 <body>
   <div id="root">${reactDom}</div>
+  <script>
+    window.__PRELOADED_STATE__ = ${serialize(reduxState, { isJSON: true })}
+  </script>
   <script src="/index.js"></script>
 </body>
 </html>
@@ -31,13 +37,17 @@ const renderPage = reactDom => {
 const app = new Koa();
 
 const main = ctx => {
+  const store = createStore({ counter: 666 });
   const context = {};
-  const jsx = ReactDOMServer.renderToString(
-    <StaticRouter location={ctx.request.url} context={context}>
-      <App />
-    </StaticRouter>,
+  const reactDom = ReactDOMServer.renderToString(
+    <ReduxProvider store={store}>
+      <StaticRouter location={ctx.request.url} context={context}>
+        <App />
+      </StaticRouter>
+    </ReduxProvider>,
   );
-  ctx.response.body = renderPage(jsx);
+  const reduxState = store.getState();
+  ctx.response.body = renderPage(reactDom, reduxState);
 };
 
 // 监控状态

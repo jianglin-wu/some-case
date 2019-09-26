@@ -52,6 +52,9 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({
+      RUNTIME_TARGET: JSON.stringify(process.env.RUNTIME_TARGET),
+    }),
     new htmlWebpackPlugin({
       title: 'some-case',
       template: path.resolve(__dirname, './src/pages/document.ejs'),

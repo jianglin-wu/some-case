@@ -1,15 +1,15 @@
 {
   "name": "some-case",
   "version": "1.0.0",
-  "description": "",
+  "description": "React technical practice.",
   "main": "index.js",
   "scripts": {
     "analyze": "npm run build && source-map-explorer 'dist/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm-run-all --parallel server client",
-    "build": "cross-env NODE_ENV=production webpack --progress --config webpack.config.js",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --open --progress",
-    "client": "cross-env NODE_ENV=development webpack --progress --watch --config webpack.config.js",
+    "build": "cross-env NODE_ENV=production RUNTIME_TARGET=spa webpack --config webpack.config.js",
+    "start": "cross-env NODE_ENV=development RUNTIME_TARGET=spa webpack-dev-server --open --progress",
+    "client": "cross-env NODE_ENV=development RUNTIME_TARGET=ssr webpack --watch --config webpack.config.js",
     "server": "nodemon index.js",
     "lint": "eslint --ext .js src && npm run lint:prettier",
     "lint:prettier": "check-prettier lint",
@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "classnames": "^2.2.6",
+    "core-js": "^3.2.1",
     "koa": "^2.8.1",
     "koa-route": "^3.2.0",
     "koa-static": "^5.0.0",
@@ -30,6 +31,7 @@
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.0",
     "redux": "^4.0.4",
+    "serialize-javascript": "^2.1.0",
     "workbox-webpack-plugin": "^4.3.1"
   },
   "devDependencies": {
