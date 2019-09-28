@@ -13,10 +13,10 @@ export default class Counter extends React.PureComponent {
     return (
       <div className={className}>
         <p> {count} </p>
-        <button type="button" onClick={onIncrement}>
+        <button type="button" onClick={loadingIncrement ? null : onIncrement}>
           {loadingIncrement ? '加载中' : '+'}
         </button>{' '}
-        <button type="button" onClick={onDecrement}>
+        <button type="button" onClick={loadingDecrement ? null : onDecrement}>
           {loadingDecrement ? '加载中' : '-'}
         </button>
       </div>
