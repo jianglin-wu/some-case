@@ -5,6 +5,7 @@ import './index.css';
 
 import Home from './Home';
 import About from './About';
+import Saga from './Saga';
 import State from './State';
 import Store from './Store';
 import NotFind from './404';
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <Switch>
       <Route path="/about" component={About} />
+      <Route path="/saga" component={Saga} />
       <Route path="/state" component={State} />
       <Route path="/store" component={Store} />
       <Route path="/" component={Home} exact />

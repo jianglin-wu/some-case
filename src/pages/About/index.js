@@ -1,13 +1,11 @@
-import React, { Fragment } from 'react';
-import Header from '@/components/Header';
+import React from 'react';
+import BasicLayout from '@/layouts/BasicLayout';
 
-export default class About extends React.Component {
+@BasicLayout({ title: 'About' })
+class About extends React.Component {
   render() {
-    return (
-      <Fragment>
-        <Header />
-        <p>about</p>
-      </Fragment>
-    );
+    return <p>about</p>;
   }
 }
+
+export default About;
