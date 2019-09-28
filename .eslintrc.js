@@ -26,7 +26,7 @@ module.exports = {
     'react/prop-types': 1,
     'react/prefer-stateless-function': 1,
     'react/button-has-type': 1,
-    'react/state-in-constructor': [1, 'always'],
+    'react/state-in-constructor': [1, 'never'],
     'react/jsx-fragments': [2, 'element'],
     'react/jsx-one-expression-per-line': [0], // 与 prettier 规则冲突
   },

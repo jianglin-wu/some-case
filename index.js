@@ -18,6 +18,7 @@ require('@babel/register')({
         extensions: ['.css', '.scss'],
       },
     ],
+    ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
     '@babel/plugin-proposal-class-properties',
     'dynamic-import-node',
   ],

@@ -9,7 +9,7 @@ import route from 'koa-route';
 import serve from 'koa-static';
 import prettier from 'prettier';
 import App from './pages';
-import createStore from './store/create';
+import createStore from './store/index';
 
 const usePrettier = false;
 const renderPage = (reactDom, reduxState) => {
