@@ -1,15 +1,17 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
+import BasicLayout from '@/layouts/BasicLayout';
 import stylesCommon from '@/components/styles';
 
-export default () => {
-  return (
-    <Fragment>
-      <Header title="页面没找到" />
+@BasicLayout({ title: 'About' })
+class NotFind extends React.Component {
+  render() {
+    return (
       <div className={stylesCommon.container}>
         <Link to="/">回到首页</Link>
       </div>
-    </Fragment>
-  );
-};
+    );
+  }
+}
+
+export default NotFind;
