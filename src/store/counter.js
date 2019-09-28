@@ -43,6 +43,6 @@ function* decrementAsync() {
 }
 
 export function* saga() {
-  yield takeLatest('INCREMENT_ASYNC', incrementAsync);
-  yield takeLatest('DECREMENT_ASYNC', decrementAsync);
+  yield takeLatest(INCREMENT_ASYNC, incrementAsync);
+  yield takeLatest(DECREMENT_ASYNC, decrementAsync);
 }
