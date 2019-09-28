@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import BasicLayout from '@/layouts/BasicLayout';
 import stylesCommon from '@/components/styles';
 
-@BasicLayout({ title: 'About' })
+@BasicLayout({ title: '页面没找到' })
 class NotFind extends React.Component {
   render() {
     return (
