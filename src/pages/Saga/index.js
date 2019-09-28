@@ -8,18 +8,24 @@ import { actionCreators } from '@/store/counter';
 
 @BasicLayout({ title: 'Saga' })
 @connect(
-  ({ counter }) => ({ counter }),
+  ({ counter, loading: { INCREMENT_ASYNC, DECREMENT_ASYNC } }) => ({
+    counter,
+    loadingIncrement: INCREMENT_ASYNC,
+    loadingDecrement: DECREMENT_ASYNC,
+  }),
   dispatch => ({ actions: bindActionCreators(actionCreators, dispatch) }),
 )
 class StoreDemo extends React.Component {
   render() {
-    const { counter, actions } = this.props;
+    const { counter, actions, loadingIncrement, loadingDecrement } = this.props;
     return (
       <Counter
         className={stylesCommon.container}
         count={counter}
         onIncrement={actions.incrementAsync}
         onDecrement={actions.decrementAsync}
+        loadingIncrement={loadingIncrement}
+        loadingDecrement={loadingDecrement}
       />
     );
   }

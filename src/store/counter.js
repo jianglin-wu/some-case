@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 import { delay } from '@/components/utils';
 
 const INCREMENT = 'INCREMENT';
@@ -32,17 +32,13 @@ export const reducer = (state = 0, action) => {
   }
 };
 
-function* incrementAsync() {
-  yield call(delay, 1000);
-  yield put(actionCreators.increment());
-}
-
-function* decrementAsync() {
-  yield call(delay, 1000);
-  yield put(actionCreators.decrement());
-}
-
-export function* saga() {
-  yield takeLatest(INCREMENT_ASYNC, incrementAsync);
-  yield takeLatest(DECREMENT_ASYNC, decrementAsync);
-}
+export const effects = {
+  *[INCREMENT_ASYNC]() {
+    yield call(delay, 1000);
+    yield put(actionCreators.increment());
+  },
+  *[DECREMENT_ASYNC]() {
+    yield call(delay, 1000);
+    yield put(actionCreators.decrement());
+  },
+};

@@ -1,12 +1,15 @@
-import { all } from 'redux-saga/effects';
-import { saga as counter } from './counter';
+import { take } from 'redux-saga/effects';
+import { onEffect } from './loading';
+import { effects as effectsCounter } from './counter';
 
-// eslint-disable-next-line require-yield
-export function* helloSaga() {
-  // eslint-disable-next-line no-console
-  console.log('Hello Sagas!');
-}
+const effects = { ...effectsCounter };
 
 export default function* rootSaga() {
-  yield all([helloSaga(), counter()]);
+  while (true) {
+    const action = yield take('*');
+    const effect = effects[action.type];
+    if (effect) {
+      yield onEffect(effect, action.type);
+    }
+  }
 }
