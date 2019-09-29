@@ -6,9 +6,9 @@ import render from '@/ssr/render';
 
 const app = new Koa();
 
-const main = async ctx => {
-  const { url } = ctx.request;
-  return render({ url }, { counter: 888 });
+const main = ctx => {
+  const { url, query } = ctx.request;
+  ctx.response.body = render({ url, query }, { counter: 99 });
 };
 
 // 监控状态

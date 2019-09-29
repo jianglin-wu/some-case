@@ -1,8 +1,7 @@
 import serialize from 'serialize-javascript';
 import prettier from 'prettier';
 
-const usePrettier = false;
-const renderPage = (reactDom, reduxState) => {
+const renderPage = (reactDom, reduxState, { isPrettier }) => {
   let htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -19,7 +18,7 @@ const renderPage = (reactDom, reduxState) => {
 </body>
 </html>
   `.trim();
-  if (usePrettier) {
+  if (isPrettier) {
     htmlContent = prettier.format(htmlContent, { parser: 'html' });
   }
   return htmlContent;

@@ -6,7 +6,7 @@ import renderPage from './render-page';
 import App from '@/pages';
 import createStore from '@/store';
 
-const render = ({ url, initialStore = {} }) => {
+const render = ({ url, query }, initialStore = {}) => {
   const store = createStore(initialStore);
   const context = {};
   const reactDom = ReactDOMServer.renderToString(
@@ -17,7 +17,7 @@ const render = ({ url, initialStore = {} }) => {
     </ReduxProvider>,
   );
   const reduxState = store.getState();
-  return renderPage(reactDom, reduxState);
+  return renderPage(reactDom, reduxState, { isPrettier: !!query.prettier });
 };
 
 export default render;
