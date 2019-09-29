@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import createStore from './store/index';
-import * as serviceWorker from './sw-register';
-import App from './pages';
+import createStore from '@/store';
+import App from '@/pages';
+import * as serviceWorker from '@/sw-register';
 
 serviceWorker.register({
   onUpdate: () => {
