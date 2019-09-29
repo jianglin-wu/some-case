@@ -24,15 +24,25 @@ serviceWorker.register({
 
 // eslint-disable-next-line no-undef
 const runtimeTarget = (RUNTIME_TARGET || '').toLocaleLowerCase();
-const render = runtimeTarget === 'ssr' ? ReactDOM.hydrate : ReactDOM.render;
+const domRender = runtimeTarget === 'ssr' ? ReactDOM.hydrate : ReactDOM.render;
 // eslint-disable-next-line no-underscore-dangle
 const preloadedState = window.__PRELOADED_STATE__ || {};
 
-render(
-  <Provider store={createStore(preloadedState)}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
-  document.querySelector('#root'),
-);
+function render() {
+  domRender(
+    <Provider store={createStore(preloadedState)}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>,
+    document.querySelector('#root'),
+  );
+}
+
+render();
+
+if (module.hot) {
+  module.hot.accept('./pages', () => {
+    render();
+  });
+}

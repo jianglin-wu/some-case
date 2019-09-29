@@ -18,6 +18,9 @@ class Home extends React.Component {
           <li>
             <Link to="/saga">Saga Demo</Link>
           </li>
+          <li>
+            <Link to="/fetch">Fetch Demo</Link>
+          </li>
         </ul>
       </div>
     );

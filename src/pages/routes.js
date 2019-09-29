@@ -1,4 +1,5 @@
 import Home from './Home';
+import Fetch from './Fetch';
 import About from './About';
 import Saga from './Saga';
 import State from './State';
@@ -8,6 +9,11 @@ export default [
   {
     path: '/',
     component: Home,
+    exact: true,
+  },
+  {
+    path: '/fetch',
+    component: Fetch,
     exact: true,
   },
   {

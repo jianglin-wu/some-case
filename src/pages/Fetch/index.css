@@ -1,0 +1,34 @@
+.page {
+  padding-top: 24px;
+}
+
+.postItem {
+  margin-bottom: 24px;
+}
+.postItem h3 {
+  color: #333;
+  line-height: 1.5;
+}
+.postItem p {
+  color: #888;
+}
+
+.coverBox {
+  width: 400px;
+  height: 200px;
+  position: relative;
+}
+
+.coverBox .date {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  color: white;
+}
+
+.coverBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #aaa;
+}

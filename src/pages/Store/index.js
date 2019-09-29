@@ -9,7 +9,7 @@ import { actionCreators } from '@/store/counter';
 @BasicLayout({ title: 'Store' })
 @connect(
   ({ counter }) => ({ counter }),
-  dispatch => ({ actions: bindActionCreators(actionCreators, dispatch), dispatch }),
+  dispatch => ({ actions: bindActionCreators(actionCreators, dispatch) }),
 )
 class StoreDemo extends React.Component {
   render() {
