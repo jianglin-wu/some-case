@@ -4,10 +4,8 @@ import { StaticRouter } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 import renderPage from './render-page';
 import App from '@/pages';
-import createStore from '@/store';
 
-const render = ({ url, query }, initialStore = {}) => {
-  const store = createStore(initialStore);
+const render = ({ url, query }, store) => {
   const context = {};
   const reactDom = ReactDOMServer.renderToString(
     <ReduxProvider store={store}>

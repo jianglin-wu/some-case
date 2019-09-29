@@ -12,6 +12,9 @@ export default function BasicLayoutDecorator(options = {}) {
         </Fragment>
       );
     };
+    if (Target.getInitialProps) {
+      BasicLayout.getInitialProps = Target.getInitialProps;
+    }
     return BasicLayout;
   };
 }

@@ -3,7 +3,7 @@ import request from '@/components/utils/request';
 
 const POST_SET = 'POST_SET';
 const POST_FETCH = 'POST_FETCH';
-const initialState = { list: [] };
+const initialState = { list: null };
 
 function getPosts() {
   return request('/posts');
@@ -40,6 +40,8 @@ export const effects = {
     const resData = yield call(getPosts);
     if (resData && resData.code === 200) {
       yield put(actionCreators.postSet(resData.data));
+      return resData.data;
     }
+    return null;
   },
 };

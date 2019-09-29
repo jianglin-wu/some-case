@@ -2,13 +2,26 @@ import path from 'path';
 import Koa from 'koa';
 import route from 'koa-route';
 import serve from 'koa-static';
+import { matchPath } from 'react-router-dom';
 import render from '@/ssr/render';
+import createStore from '@/store';
+import routes from '@/pages/routes';
+
+// request https 不检查证书
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 const app = new Koa();
 
-const main = ctx => {
+const main = async ctx => {
   const { url, query } = ctx.request;
-  ctx.response.body = render({ url, query }, { counter: 99 });
+  const store = createStore({ counter: 99 });
+  const dataRequirements = routes
+    .filter(routeProps => matchPath(url.split('?')[0], routeProps))
+    .map(({ component }) => component)
+    .filter(comp => comp.getInitialProps)
+    .map(comp => comp.getInitialProps(store, ctx));
+  await Promise.all(dataRequirements);
+  ctx.response.body = render({ url, query }, store);
 };
 
 // 监控状态

@@ -8,15 +8,24 @@ import stylesCommon from '@/components/styles';
 import styles from './index.css';
 
 const clsPage = classnames(stylesCommon.container, styles.page);
+const dispatchConnect = dispatch => ({ actions: bindActionCreators(actionCreators, dispatch) });
+
 @BasicLayout({ title: 'Fetch Data' })
 @connect(
   ({ posts: { list } }) => ({ postsList: list }),
-  dispatch => ({ actions: bindActionCreators(actionCreators, dispatch) }),
+  dispatchConnect,
 )
 class Fetch extends React.Component {
+  static async getInitialProps({ dispatch }) {
+    const { actions } = dispatchConnect(dispatch);
+    await actions.postFetch();
+  }
+
   componentDidMount() {
-    const { actions } = this.props;
-    actions.postFetch();
+    const { actions, postsList } = this.props;
+    if (postsList === null) {
+      actions.postFetch();
+    }
   }
 
   render() {
@@ -24,7 +33,7 @@ class Fetch extends React.Component {
     return (
       <div className={clsPage}>
         <ul style={{ listStyle: 'none' }}>
-          {postsList.map(item => (
+          {(postsList || []).map(item => (
             <li key={item.id} className={styles.postItem}>
               <div className={styles.coverBox}>
                 <img src={item.cover} alt={item.title} />

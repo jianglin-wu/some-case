@@ -17,6 +17,7 @@ export const reducer = (state = initialState, { type, payload = {} }) => {
 
 export function* onEffect(effect, actionType) {
   yield put({ type: LOADING_SHOW, payload: { actionType } });
-  yield effect();
+  const res = yield effect();
   yield put({ type: LOADING_HIDE, payload: { actionType } });
+  return res;
 }
