@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import createStore from '@/store';
 import App from '@/pages';
 import * as serviceWorker from '@/sw-register';
@@ -30,11 +31,13 @@ const preloadedState = window.__PRELOADED_STATE__ || {};
 
 function render() {
   domRender(
-    <Provider store={createStore(preloadedState)}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>,
+    <HelmetProvider>
+      <ReduxProvider store={createStore(preloadedState)}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ReduxProvider>
+    </HelmetProvider>,
     document.querySelector('#root'),
   );
 }

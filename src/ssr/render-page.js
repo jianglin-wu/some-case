@@ -7,14 +7,18 @@ const distPath = path.resolve(__dirname, '../../dist');
 const indexJsPath = glob.sync(`${distPath}/index.*.js`)[0] || '/index.js';
 const indexCssPath = glob.sync(`${distPath}/index.*.css`)[0] || '/index.css';
 
-const renderPage = (reactDom, reduxState, { isPrettier }) => {
+const renderPage = (reactDom, reduxState, { isPrettier, helmet }) => {
+  const { title, meta, link } = helmet;
   let htmlContent = `
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>some-case</title>
-  <link crossorigin="anonymous" rel="stylesheet" href="${indexCssPath.replace(distPath, '')}" />
+  ${title}
+  <meta charset="utf-8">${meta}
+  ${link}<link crossorigin="anonymous" rel="stylesheet" href="${indexCssPath.replace(
+    distPath,
+    '',
+  )}" />
 </head>
 <body>
   <div id="root">${reactDom}</div>

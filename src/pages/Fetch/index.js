@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { Helmet } from 'react-helmet-async';
 import { actionCreators } from '@/store/posts';
 import BasicLayout from '@/layouts/BasicLayout';
 import stylesCommon from '@/components/styles';
@@ -9,8 +10,16 @@ import styles from './index.css';
 
 const clsPage = classnames(stylesCommon.container, styles.page);
 const dispatchConnect = dispatch => ({ actions: bindActionCreators(actionCreators, dispatch) });
+const HelmetComponent = () => {
+  return (
+    <Helmet>
+      <title>Fetch Data</title>
+      <meta content="IE=edge" httpEquiv="X-UA-Compatible" />
+    </Helmet>
+  );
+};
 
-@BasicLayout({ title: 'Fetch Data' })
+@BasicLayout({ HelmetComponent })
 @connect(
   ({ posts: { list } }) => ({ postsList: list }),
   dispatchConnect,
