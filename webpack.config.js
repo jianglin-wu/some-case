@@ -1,8 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackBar = require('webpackbar');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const publicPath = '/';
@@ -18,7 +21,8 @@ module.exports = {
     hot: true,
   },
   output: {
-    filename: 'index.js',
+    filename: 'index.[hash:8].js',
+    chunkFilename: '[name].[contenthash:8].async.js',
     path: path.resolve(__dirname, 'dist/'),
     publicPath,
   },
@@ -27,7 +31,15 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it uses publicPath in webpackOptions.output
+              publicPath,
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
           {
             loader: 'css-loader',
             options: {
@@ -51,13 +63,27 @@ module.exports = {
     ],
   },
   plugins: [
+    new WebpackBar(),
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       RUNTIME_TARGET: JSON.stringify(process.env.RUNTIME_TARGET),
     }),
-    new htmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       title: 'some-case',
       template: path.resolve(__dirname, './src/pages/document.ejs'),
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, './public/'),
+        to: path.resolve(__dirname, './dist/'),
+      },
+    ]),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: 'index.[hash:8].css',
+      chunkFilename: '[id].[contenthash:8].css',
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
     new webpack.HotModuleReplacementPlugin(),
     new WorkboxPlugin.InjectManifest({

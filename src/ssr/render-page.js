@@ -1,5 +1,11 @@
+import path from 'path';
+import glob from 'glob';
 import serialize from 'serialize-javascript';
 import prettier from 'prettier';
+
+const distPath = path.resolve(__dirname, '../../dist');
+const indexJsPath = glob.sync(`${distPath}/index.*.js`)[0] || '/index.js';
+const indexCssPath = glob.sync(`${distPath}/index.*.css`)[0] || '/index.css';
 
 const renderPage = (reactDom, reduxState, { isPrettier }) => {
   let htmlContent = `
@@ -8,13 +14,14 @@ const renderPage = (reactDom, reduxState, { isPrettier }) => {
 <head>
   <meta charset="utf-8">
   <title>some-case</title>
+  <link crossorigin="anonymous" rel="stylesheet" href="${indexCssPath.replace(distPath, '')}" />
 </head>
 <body>
   <div id="root">${reactDom}</div>
   <script>
     window.__PRELOADED_STATE__ = ${serialize(reduxState, { isJSON: true })}
   </script>
-  <script src="/index.js"></script>
+  <script crossorigin="anonymous" src="${indexJsPath.replace(distPath, '')}"></script>
 </body>
 </html>
   `.trim();
