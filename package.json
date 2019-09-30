@@ -4,16 +4,17 @@
   "description": "React technical practice.",
   "main": "index.js",
   "scripts": {
-    "analyze": "npm run build && source-map-explorer 'dist/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm-run-all --parallel server client",
-    "build": "cross-env NODE_ENV=production RUNTIME_TARGET=spa webpack --config webpack.config.js",
-    "start": "cross-env NODE_ENV=development RUNTIME_TARGET=spa webpack-dev-server --open --progress",
-    "client": "cross-env NODE_ENV=development RUNTIME_TARGET=ssr webpack --watch --config webpack.config.js",
-    "server": "nodemon index.js",
+    "analyze": "npm run build:client && source-map-explorer 'dist/*.js'",
+    "start": "cross-env NODE_ENV=development RUNTIME_TARGET=spa npm-run-all --parallel start:server \"build:client -- -w\"",
+    "build": "cross-env NODE_ENV=production RUNTIME_TARGET=spa npm-run-all build:*",
+    "build:client": "webpack --config webpack.config.js",
+    "build:server": "babel src --no-babelrc --config-file ./babelrc-node.js --out-dir lib --ignore \"src/**/*.test.js\"",
+    "start:client": "cross-env NODE_ENV=development RUNTIME_TARGET=spa webpack-dev-server --open --progress",
+    "start:server": "nodemon index.js",
     "lint": "eslint --ext .js src && npm run lint:prettier",
     "lint:prettier": "check-prettier lint",
-    "prettier": "prettier --write \"**/*\""
+    "prettier": "prettier --write \"**/*\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +41,7 @@
     "workbox-webpack-plugin": "^4.3.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.6.2",
     "@babel/core": "^7.6.2",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.6.0",
