@@ -86,31 +86,34 @@ module.exports = {
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
     new webpack.HotModuleReplacementPlugin(),
+    // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
     new WorkboxPlugin.InjectManifest({
       swDest: path.resolve(__dirname, 'dist/sw.js'),
       swSrc: path.resolve(__dirname, 'src/sw.js'),
-      // importWorkboxFrom: 'local',
+      exclude: [/\.html$/, /\.map$/],
+      importWorkboxFrom: 'local',
     }),
     // new WorkboxPlugin.GenerateSW({
-    //   swDest: 'sw.js',
+    //   swDest: path.resolve(__dirname, 'dist/sw.js'),
+    //   exclude: [/\.html$/, /\.map$/],
     //   clientsClaim: true,
     //   skipWaiting: true,
     //   importWorkboxFrom: 'local',
-    //   navigateFallback: `${publicPath}index.html`,
+    //   navigateFallback: 'index.html',
     //   runtimeCaching: [
     //     {
     //       urlPattern: new RegExp('https://image-cdn.hahhub.com'),
-    //       handler: 'CacheFirst'
+    //       handler: 'CacheFirst',
     //     },
     //     {
     //       urlPattern: new RegExp('https://blog-cdn.hahhub.com'),
-    //       handler: 'StaleWhileRevalidate'
+    //       handler: 'StaleWhileRevalidate',
     //     },
     //     {
     //       urlPattern: /appconfig\.js$/,
-    //       handler: 'NetworkFirst'
+    //       handler: 'NetworkFirst',
     //     },
-    //   ]
+    //   ],
     // }),
   ],
   resolve: {

@@ -20,10 +20,32 @@ workbox.core.skipWaiting();
 // eslint-disable-next-line
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
-workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL('/index.html'), {
-  blacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
-});
+// workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL('/index.html'), {
+//   blacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
+// });
 
+workbox.routing.registerRoute(
+  /^((?!\.).)*$/,
+  new workbox.strategies.NetworkFirst({
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  }),
+  'GET',
+);
+workbox.routing.registerRoute(
+  /(\.html|\/)$/,
+  new workbox.strategies.NetworkFirst({
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  }),
+  'GET',
+);
 workbox.routing.registerRoute(
   /https:\/\/image-cdn.hahhub.com/,
   new workbox.strategies.CacheFirst({
@@ -36,7 +58,18 @@ workbox.routing.registerRoute(
   'GET',
 );
 workbox.routing.registerRoute(
-  /https:\/\/blog-cdn.hahhub.com/,
+  /https:\/\/image-cdn.hahhub.com/,
+  new workbox.strategies.CacheFirst({
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+    ],
+  }),
+  'GET',
+);
+workbox.routing.registerRoute(
+  /http:\/\/dummyimage\.com/,
   new workbox.strategies.StaleWhileRevalidate(),
   'GET',
 );

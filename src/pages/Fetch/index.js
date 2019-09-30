@@ -19,7 +19,7 @@ const HelmetComponent = () => {
   );
 };
 
-@BasicLayout({ HelmetComponent, title: 'Fetch Data' })
+@BasicLayout({ HelmetComponent, title: 'Fetch Data2' })
 @connect(
   ({ posts: { list } }) => ({ postsList: list }),
   dispatchConnect,
