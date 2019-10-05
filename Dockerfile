@@ -9,4 +9,4 @@ COPY ./ ./
 
 RUN npm run test && npm run build
 
-CMD ["node ./lib/server.js"]
+ENTRYPOINT ["node ./lib/server.js"]
