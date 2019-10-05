@@ -36,6 +36,7 @@
     "react-router-dom": "^5.1.0",
     "redux": "^4.0.4",
     "redux-saga": "^1.1.1",
+    "register-service-worker": "^1.6.2",
     "serialize-javascript": "^2.1.0",
     "umi-request": "^1.2.6",
     "workbox-webpack-plugin": "^4.3.1"
