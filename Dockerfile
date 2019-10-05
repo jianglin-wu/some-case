@@ -9,4 +9,4 @@ COPY ./ ./
 
 RUN npm run test && npm run build
 
-ENTRYPOINT ["node ./lib/server.js"]
+ENTRYPOINT ["node /usr/src/app/lib/server.js"]
