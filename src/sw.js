@@ -20,16 +20,17 @@ workbox.core.skipWaiting();
 // eslint-disable-next-line
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
-// workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL('/index.html'), {
-//   blacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
-// });
+workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL('/index.html'), {
+  whitelist: [/^((?!\.).)*$/],
+  // blacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
+  // blacklist: [/\.(js|css|jpe?g|png)$/i],
+});
 
 workbox.routing.registerRoute(
   ({ url }) => {
     // eslint-disable-next-line no-restricted-globals
     return !!(url.origin === self.location.origin && /^((?!\.).)*$/.test(url.pathname));
   },
-  // /^((?!\.).)*$/,
   new workbox.strategies.NetworkFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({
