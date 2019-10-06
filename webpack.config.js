@@ -90,7 +90,7 @@ module.exports = {
     new WorkboxPlugin.InjectManifest({
       swDest: path.resolve(__dirname, 'dist/sw.js'),
       swSrc: path.resolve(__dirname, 'src/sw.js'),
-      exclude: [/\.html$/, /\.map$/],
+      // exclude: [/\.html$/, /\.map$/],
       importWorkboxFrom: 'local',
     }),
     // new WorkboxPlugin.GenerateSW({

@@ -9,8 +9,8 @@ if (workbox) {
 
 workbox.setConfig({ debug: true });
 workbox.core.setCacheNameDetails({
-  prefix: 'workbox-test2',
-  suffix: 'v3.1.1',
+  prefix: 'workbox-test',
+  suffix: 'v1',
   precache: 'custom-precache-name',
   runtime: 'custom-runtime-name',
 });
@@ -31,17 +31,6 @@ workbox.routing.registerRoute(
     // eslint-disable-next-line no-restricted-globals
     return !!(url.origin === self.location.origin && /^((?!\.).)*$/.test(url.pathname));
   },
-  new workbox.strategies.NetworkFirst({
-    plugins: [
-      new workbox.cacheableResponse.Plugin({
-        statuses: [0, 200],
-      }),
-    ],
-  }),
-  'GET',
-);
-workbox.routing.registerRoute(
-  /(\.html|\/)$/,
   new workbox.strategies.NetworkFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({
