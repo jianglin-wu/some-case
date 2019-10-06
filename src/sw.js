@@ -20,8 +20,14 @@ workbox.core.skipWaiting();
 // eslint-disable-next-line
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
-workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL('/index.html'), {
-  blacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
+// workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL('/index.html'), {
+//   blacklist: [/^\/_/, /\/[^/]+\.[^/]+$/],
+// });
+
+workbox.routing.setDefaultHandler(({ url, event, params }) => {
+  console.log('[sw] workbox.core.cacheNames.precache:', workbox.core.cacheNames.precache);
+  console.log('[sw] caches:', workbox.precaching.getCacheKeyForURL('/index.html'), caches);
+  console.log('[sw] event:', event.respondWith, event, params, url);
 });
 
 workbox.routing.registerRoute(
