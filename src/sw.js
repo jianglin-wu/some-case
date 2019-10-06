@@ -27,8 +27,7 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 workbox.routing.registerRoute(
   ({ url }) => {
     // eslint-disable-next-line no-restricted-globals
-    console.log('sw args:', url.toString(), self);
-    return false;
+    return !!(url.origin === self.location.origin && /^((?!\.).)*$/.test(url.pathname));
   },
   // /^((?!\.).)*$/,
   new workbox.strategies.NetworkFirst({
