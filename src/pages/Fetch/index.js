@@ -45,7 +45,7 @@ class Fetch extends React.Component {
           {(postsList || []).map(item => (
             <li key={item.id} className={styles.postItem}>
               <div className={styles.coverBox}>
-                <img src={item.cover} alt={item.title} />
+                <img src={item.cover.replace('http://', 'https://')} alt={item.title} />
                 <span className={styles.date}>{item.date}</span>
               </div>
               <h3>{item.title}</h3>
