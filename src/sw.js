@@ -25,8 +25,8 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 // });
 
 workbox.routing.registerRoute(
-  (...args) => {
-    console.log('sw args:', args);
+  ({ url }) => {
+    console.log('sw args:', url.toString(), self);
     return false;
   },
   // /^((?!\.).)*$/,
