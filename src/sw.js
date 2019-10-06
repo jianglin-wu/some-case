@@ -58,14 +58,8 @@ workbox.routing.registerRoute(
   'GET',
 );
 workbox.routing.registerRoute(
-  /https?:\/\/image-cdn.hahhub.com/,
-  new workbox.strategies.CacheFirst({
-    plugins: [
-      new workbox.cacheableResponse.Plugin({
-        statuses: [0, 200],
-      }),
-    ],
-  }),
+  /https?:\/\/blog-cdn.hahhub.com/,
+  new workbox.strategies.StaleWhileRevalidate(),
   'GET',
 );
 workbox.routing.registerRoute(
