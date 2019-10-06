@@ -47,7 +47,7 @@ workbox.routing.registerRoute(
   'GET',
 );
 workbox.routing.registerRoute(
-  /https:\/\/image-cdn.hahhub.com/,
+  /https?:\/\/image-cdn.hahhub.com/,
   new workbox.strategies.CacheFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({
@@ -58,7 +58,7 @@ workbox.routing.registerRoute(
   'GET',
 );
 workbox.routing.registerRoute(
-  /https:\/\/image-cdn.hahhub.com/,
+  /https?:\/\/image-cdn.hahhub.com/,
   new workbox.strategies.CacheFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({
@@ -69,7 +69,7 @@ workbox.routing.registerRoute(
   'GET',
 );
 workbox.routing.registerRoute(
-  /http:\/\/dummyimage\.com/,
+  /https?:\/\/dummyimage\.com/,
   new workbox.strategies.StaleWhileRevalidate(),
   'GET',
 );
