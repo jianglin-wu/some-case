@@ -25,7 +25,11 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 // });
 
 workbox.routing.registerRoute(
-  /^((?!\.).)*$/,
+  (...args) => {
+    console.log('sw args:', args);
+    return false;
+  },
+  // /^((?!\.).)*$/,
   new workbox.strategies.NetworkFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({
