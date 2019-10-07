@@ -7,7 +7,7 @@ import { register } from 'register-service-worker';
 import createStore from '@/store';
 import App from '@/pages';
 
-register('/sw.js', {
+register('/service-worker.js', {
   registrationOptions: { scope: './' },
   ready() {
     // eslint-disable-next-line no-console

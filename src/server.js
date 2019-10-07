@@ -37,7 +37,7 @@ app.use(route.get('/', main));
 // SPA 静态文件
 app.use(serve(path.resolve(__dirname, '../dist')), {
   index: '',
-  extensions: ['.js', '.css', '.png', '.jpeg', '.jpg', 'gif'],
+  extensions: ['.js', '.css', '.png', '.jpeg', '.jpg', '.gif', '.html'],
 });
 
 // SSR

@@ -88,8 +88,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
     new WorkboxPlugin.InjectManifest({
-      swDest: path.resolve(__dirname, 'dist/sw.js'),
-      swSrc: path.resolve(__dirname, 'src/sw.js'),
+      swDest: path.resolve(__dirname, 'dist/service-worker.js'),
+      swSrc: path.resolve(__dirname, 'src/service-worker.js'),
       // exclude: [/\.html$/, /\.map$/],
       importWorkboxFrom: 'local',
     }),
