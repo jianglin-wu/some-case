@@ -23,6 +23,7 @@
     "@babel/runtime": "^7.6.2",
     "classnames": "^2.2.6",
     "core-js": "^3.2.1",
+    "express-to-koa": "^2.0.0",
     "glob": "^7.1.4",
     "koa": "^2.8.1",
     "koa-route": "^3.2.0",
@@ -38,6 +39,7 @@
     "redux-saga": "^1.1.1",
     "register-service-worker": "^1.6.2",
     "serialize-javascript": "^2.1.0",
+    "swagger-stats": "^0.95.11",
     "umi-request": "^1.2.6",
     "workbox-webpack-plugin": "^4.3.1"
   },
