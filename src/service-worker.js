@@ -32,6 +32,9 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest || [], {
 workbox.routing.setDefaultHandler(({ url, event }) => {
   // eslint-disable-next-line no-restricted-globals
   const sameOrigin = url.origin === self.location.origin;
+  if (sameOrigin && /^\/swagger-stats/.test(url.pathname)) {
+    return;
+  }
   const isNavigate = event.request.mode === 'navigate';
   const networkFirst = new workbox.strategies.NetworkFirst();
   let response = networkFirst.handle({ event });
