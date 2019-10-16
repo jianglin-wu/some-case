@@ -1,31 +1,32 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import BasicLayout from '@/layouts/BasicLayout';
 import stylesCommon from '@/components/styles';
 import Counter from '@/components/Counter';
-import { actionCreators } from '@/store/counter';
+import { bindActionCreators, bindEffects } from '@/components/utils';
+import { actionCreators } from '@/models/counter';
+
+const findLoadings = bindEffects(actionCreators);
 
 @BasicLayout({ title: 'Saga' })
 @connect(
-  ({ counter, loading: { INCREMENT_ASYNC, DECREMENT_ASYNC } }) => ({
+  ({ counter, loading }) => ({
     counter,
-    loadingIncrement: INCREMENT_ASYNC,
-    loadingDecrement: DECREMENT_ASYNC,
+    effectLoadings: findLoadings(loading),
   }),
   dispatch => ({ actions: bindActionCreators(actionCreators, dispatch) }),
 )
 class StoreDemo extends React.Component {
   render() {
-    const { counter, actions, loadingIncrement, loadingDecrement } = this.props;
+    const { counter, actions, effectLoadings } = this.props;
     return (
       <Counter
         className={stylesCommon.container}
         count={counter}
         onIncrement={actions.incrementAsync}
         onDecrement={actions.decrementAsync}
-        loadingIncrement={loadingIncrement}
-        loadingDecrement={loadingDecrement}
+        loadingIncrement={effectLoadings.incrementAsync}
+        loadingDecrement={effectLoadings.decrementAsync}
       />
     );
   }

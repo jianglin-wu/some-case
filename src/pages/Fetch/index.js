@@ -1,9 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect } from 'dva';
 import classnames from 'classnames';
 import { Helmet } from 'react-helmet-async';
-import { actionCreators } from '@/store/posts';
+import { bindActionCreators } from '@/components/utils';
+import { actionCreators } from '@/models/posts';
 import BasicLayout from '@/layouts/BasicLayout';
 import stylesCommon from '@/components/styles';
 import styles from './index.css';
