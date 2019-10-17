@@ -13,14 +13,16 @@ const publicPath = '/';
 module.exports = {
   devtool: isProduction ? 'hidden-source-map' : 'cheap-module-source-map',
   mode: isProduction ? 'production' : 'development',
-  entry: ['react-hot-loader/patch', './src/client.js'],
+  entry: {
+    index: ['react-hot-loader/patch', './src/client.js'],
+  },
   devServer: {
     historyApiFallback: true,
     contentBase: './client',
     hot: true,
   },
   output: {
-    filename: 'index.[hash:8].js',
+    filename: '[name].[hash:8].js',
     chunkFilename: '[name].[contenthash:8].async.js',
     path: path.resolve(__dirname, 'dist/'),
     publicPath,
@@ -36,7 +38,7 @@ module.exports = {
               // you can specify a publicPath here
               // by default it uses publicPath in webpackOptions.output
               publicPath,
-              hmr: process.env.NODE_ENV === 'development',
+              hmr: !isProduction,
             },
           },
           {
@@ -64,6 +66,7 @@ module.exports = {
   plugins: [
     new WebpackBar(),
     new CleanWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       RUNTIME_TARGET: JSON.stringify(process.env.RUNTIME_TARGET),
     }),
@@ -80,11 +83,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
-      filename: 'index.[hash:8].css',
-      chunkFilename: '[id].[contenthash:8].css',
+      filename: !isProduction ? '[name].css' : '[name].[hash:8].css',
+      chunkFilename: !isProduction ? '[id].css' : '[id].[contenthash:8].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
-    new webpack.HotModuleReplacementPlugin(),
     // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
     new WorkboxPlugin.InjectManifest({
       swDest: path.resolve(__dirname, 'dist/service-worker.js'),
