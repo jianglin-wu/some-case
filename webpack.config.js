@@ -92,31 +92,8 @@ module.exports = {
     new WorkboxPlugin.InjectManifest({
       swDest: path.resolve(__dirname, 'dist/service-worker.js'),
       swSrc: path.resolve(__dirname, 'src/service-worker.js'),
-      // exclude: [/\.html$/, /\.map$/],
       importWorkboxFrom: 'local',
     }),
-    // new WorkboxPlugin.GenerateSW({
-    //   swDest: path.resolve(__dirname, 'dist/sw.js'),
-    //   exclude: [/\.html$/, /\.map$/],
-    //   clientsClaim: true,
-    //   skipWaiting: true,
-    //   importWorkboxFrom: 'local',
-    //   navigateFallback: 'index.html',
-    //   runtimeCaching: [
-    //     {
-    //       urlPattern: new RegExp('https://image-cdn.hahhub.com'),
-    //       handler: 'CacheFirst',
-    //     },
-    //     {
-    //       urlPattern: new RegExp('https://blog-cdn.hahhub.com'),
-    //       handler: 'StaleWhileRevalidate',
-    //     },
-    //     {
-    //       urlPattern: /appconfig\.js$/,
-    //       handler: 'NetworkFirst',
-    //     },
-    //   ],
-    // }),
   ],
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, 'src')],
