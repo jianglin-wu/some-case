@@ -9,7 +9,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const publicPath = '/';
-// const publicPath = isProduction ? 'http://psyduck-de-MacBook-Pro.local:8080/' : '/';
 
 module.exports = {
   devtool: isProduction ? 'hidden-source-map' : 'cheap-module-source-map',
@@ -90,31 +89,8 @@ module.exports = {
     new WorkboxPlugin.InjectManifest({
       swDest: path.resolve(__dirname, 'dist/service-worker.js'),
       swSrc: path.resolve(__dirname, 'src/service-worker.js'),
-      // exclude: [/\.html$/, /\.map$/],
       importWorkboxFrom: 'local',
     }),
-    // new WorkboxPlugin.GenerateSW({
-    //   swDest: path.resolve(__dirname, 'dist/sw.js'),
-    //   exclude: [/\.html$/, /\.map$/],
-    //   clientsClaim: true,
-    //   skipWaiting: true,
-    //   importWorkboxFrom: 'local',
-    //   navigateFallback: 'index.html',
-    //   runtimeCaching: [
-    //     {
-    //       urlPattern: new RegExp('https://image-cdn.hahhub.com'),
-    //       handler: 'CacheFirst',
-    //     },
-    //     {
-    //       urlPattern: new RegExp('https://blog-cdn.hahhub.com'),
-    //       handler: 'StaleWhileRevalidate',
-    //     },
-    //     {
-    //       urlPattern: /appconfig\.js$/,
-    //       handler: 'NetworkFirst',
-    //     },
-    //   ],
-    // }),
   ],
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, 'src')],
@@ -122,5 +98,11 @@ module.exports = {
       '@': path.resolve(__dirname, './src'),
       'react-dom': '@hot-loader/react-dom',
     },
+  },
+  externals: {
+    // dva 中引入了此模块，由于没有使用则使用此方式减少打包体积
+    // 请求网络数据请用 umi-request 模块代替
+    // 此方式减少：生产环境 7~9KB JS 大小
+    'whatwg-fetch': 'window.__whatwg-fetch',
   },
 };
