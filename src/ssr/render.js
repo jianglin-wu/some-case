@@ -2,20 +2,16 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom';
-import { Provider as ReduxProvider } from 'react-redux';
 import renderPage from './render-page';
-import App from '@/pages';
 
-const render = ({ url, query }, store) => {
+const render = ({ url, query }, { store, App }) => {
   const helmetContext = {};
   const routerContext = {};
   const reactDom = ReactDOMServer.renderToString(
     <HelmetProvider context={helmetContext}>
-      <ReduxProvider store={store}>
-        <StaticRouter location={url} context={routerContext}>
-          <App />
-        </StaticRouter>
-      </ReduxProvider>
+      <StaticRouter location={url} context={routerContext}>
+        <App />
+      </StaticRouter>
     </HelmetProvider>,
   );
   const { helmet } = helmetContext;

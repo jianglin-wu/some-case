@@ -4,11 +4,16 @@ import route from 'koa-route';
 import serve from 'koa-static';
 import swStats from 'swagger-stats';
 import e2k from 'express-to-koa';
+import React from 'react';
+import dva from 'dva';
+import createLoading from 'dva-loading';
 import { matchPath } from 'react-router-dom';
+import * as history from 'history';
 import render from '@/ssr/render';
-import createStore from '@/store';
 import routes from '@/pages/routes';
 import pkg from '../package.json';
+import useModules from '@/models';
+import RouteApp from '@/pages';
 
 // request https 不检查证书
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
@@ -17,14 +22,24 @@ const app = new Koa();
 
 const main = async ctx => {
   const { url, query } = ctx.request;
-  const store = createStore({ counter: 99 });
+  const dvaApp = dva({
+    history: history.createBrowserHistory,
+    initialState: { counter: 99 },
+  });
+
+  dvaApp.use(createLoading());
+  useModules(dvaApp);
+  dvaApp.router(() => <RouteApp />);
+
+  const App = dvaApp.start();
+  const store = dvaApp._store; // eslint-disable-line no-underscore-dangle
   const dataRequirements = routes
     .filter(routeProps => matchPath(url.split('?')[0], routeProps))
     .map(({ component }) => component)
     .filter(comp => comp.getInitialProps)
     .map(comp => comp.getInitialProps(store, ctx));
   await Promise.all(dataRequirements);
-  ctx.response.body = render({ url, query }, store);
+  ctx.response.body = render({ url, query }, { store, App });
 };
 
 app.use(

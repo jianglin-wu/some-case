@@ -17,7 +17,7 @@ export default function bindEffects(actionCreators) {
     }
   });
 
-  return function findLoadings({ effects }) {
+  return function findLoadings({ effects = {} }) {
     const newEffectLoadings = {};
     let changed = false;
 
