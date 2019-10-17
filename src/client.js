@@ -9,6 +9,48 @@ import { register } from 'register-service-worker';
 import useModules from '@/models';
 import RouteApp from '@/pages';
 
+// eslint-disable-next-line no-undef
+const runtimeTarget = (RUNTIME_TARGET || '').toLocaleLowerCase();
+const domRender = runtimeTarget === 'ssr' ? ReactDOM.hydrate : ReactDOM.render;
+// eslint-disable-next-line no-underscore-dangle
+const preloadedState = window.__PRELOADED_STATE__ || {};
+
+const app = dva({
+  history: history.createBrowserHistory,
+  initialState: preloadedState,
+});
+app.use(createLoading());
+useModules(app);
+
+function render() {
+  app.router(() => {
+    return (
+      <BrowserRouter>
+        <RouteApp />
+      </BrowserRouter>
+    );
+  });
+  const App = app.start();
+  domRender(
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>,
+    document.querySelector('#root'),
+  );
+}
+
+render();
+
+if (module.hot) {
+  module.hot.accept('./pages', () => {
+    render();
+  });
+}
+
+if (!navigator.onLine) {
+  console.log('offline');
+}
+
 if (process.env.NODE_ENV !== 'development') {
   register('/service-worker.js', {
     registrationOptions: { scope: './' },
@@ -47,43 +89,4 @@ if (process.env.NODE_ENV !== 'development') {
       console.error('[register-service-worker] Error during service worker registration:', error);
     },
   });
-}
-
-// eslint-disable-next-line no-undef
-const runtimeTarget = (RUNTIME_TARGET || '').toLocaleLowerCase();
-const domRender = runtimeTarget === 'ssr' ? ReactDOM.hydrate : ReactDOM.render;
-// eslint-disable-next-line no-underscore-dangle
-const preloadedState = window.__PRELOADED_STATE__ || {};
-
-const app = dva({
-  history: history.createBrowserHistory,
-  initialState: preloadedState,
-});
-
-app.use(createLoading());
-useModules(app);
-app.router(() => <RouteApp />);
-
-function render() {
-  const App = app.start();
-  domRender(
-    <HelmetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </HelmetProvider>,
-    document.querySelector('#root'),
-  );
-}
-
-render();
-
-if (module.hot) {
-  module.hot.accept('./pages', () => {
-    render();
-  });
-}
-
-if (!navigator.onLine) {
-  console.log('offline');
 }

@@ -103,6 +103,7 @@ module.exports = {
     // dva 中引入了此模块，由于没有使用则使用此方式减少打包体积
     // 请求网络数据请用 umi-request 模块代替
     // 此方式减少：生产环境 7~9KB JS 大小
+    // 如需要使用 dva/fetch 或者 isomorphic-fetch 模块请注释此项配置
     'whatwg-fetch': 'window.__whatwg-fetch',
   },
 };

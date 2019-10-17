@@ -39,6 +39,7 @@ class Fetch extends React.Component {
 
   render() {
     const { postsList } = this.props;
+
     return (
       <div className={clsPage}>
         <ul style={{ listStyle: 'none' }}>
