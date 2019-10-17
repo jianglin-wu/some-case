@@ -1,13 +1,18 @@
-// 用于 node.js 执行的 bable 配置
+// 仅用于 SSR 模式的 bable 配置
+const config = require('./config');
+
+const { srcPath } = config.paths;
+const { localIdentName } = config.style;
+
 module.exports = {
   presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: [
     [
       'module-resolver',
       {
-        root: ['./src'],
+        root: [srcPath],
         alias: {
-          '@': './src',
+          '@': srcPath,
         },
       },
     ],
@@ -15,7 +20,7 @@ module.exports = {
       'css-modules-transform',
       {
         camelCase: true,
-        generateScopedName: '[path][name]__[local]--[hash:base64:5]',
+        generateScopedName: localIdentName,
         extensions: ['.css', '.scss'],
       },
     ],

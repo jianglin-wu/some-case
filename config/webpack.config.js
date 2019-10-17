@@ -6,25 +6,28 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const config = require('./config');
 
-const isProduction = process.env.NODE_ENV === 'production';
-const publicPath = '/';
+const { publicPath, title } = config;
+const { isProduction } = config.env;
+const { rootPath, clientPath, srcPath, distPath } = config.paths;
+const { localIdentName } = config.style;
 
 module.exports = {
   devtool: isProduction ? 'hidden-source-map' : 'cheap-module-source-map',
   mode: isProduction ? 'production' : 'development',
   entry: {
-    index: ['react-hot-loader/patch', './src/client.js'],
+    index: ['react-hot-loader/patch', clientPath],
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './client',
+    contentBase: distPath,
     hot: true,
   },
   output: {
     filename: '[name].[hash:8].js',
     chunkFilename: '[name].[contenthash:8].async.js',
-    path: path.resolve(__dirname, 'dist/'),
+    path: distPath,
     publicPath,
   },
   module: {
@@ -45,7 +48,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              localIdentName,
             },
           },
         ],
@@ -71,13 +74,13 @@ module.exports = {
       RUNTIME_TARGET: JSON.stringify(process.env.RUNTIME_TARGET),
     }),
     new HtmlWebpackPlugin({
-      title: 'some-case',
-      template: path.resolve(__dirname, './src/pages/document.ejs'),
+      title,
+      template: path.resolve(rootPath, 'src/pages/document.ejs'),
     }),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, './public/'),
-        to: path.resolve(__dirname, './dist/'),
+        from: path.resolve(rootPath, 'public/'),
+        to: distPath,
       },
     ]),
     new MiniCssExtractPlugin({
@@ -89,15 +92,15 @@ module.exports = {
     }),
     // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
     new WorkboxPlugin.InjectManifest({
-      swDest: path.resolve(__dirname, 'dist/service-worker.js'),
-      swSrc: path.resolve(__dirname, 'src/service-worker.js'),
+      swDest: path.resolve(rootPath, 'dist/service-worker.js'),
+      swSrc: path.resolve(rootPath, 'src/service-worker.js'),
       importWorkboxFrom: 'local',
     }),
   ],
   resolve: {
-    modules: ['node_modules', path.resolve(__dirname, 'src')],
+    modules: ['node_modules', srcPath],
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': srcPath,
       'react-dom': '@hot-loader/react-dom',
     },
   },
