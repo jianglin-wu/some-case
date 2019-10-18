@@ -6,6 +6,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssertsPlugin = require('optimize-css-assets-webpack-plugin');
 const config = require('./config');
 
 const { publicPath, title } = config;
@@ -76,6 +78,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title,
       template: path.resolve(rootPath, 'src/pages/document.ejs'),
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+      },
     }),
     new CopyWebpackPlugin([
       {
@@ -110,5 +119,9 @@ module.exports = {
     // 此方式减少：生产环境 7~9KB JS 大小
     // 如需要使用 dva/fetch 或者 isomorphic-fetch 模块请注释此项配置
     'whatwg-fetch': 'window.__whatwg-fetch',
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({}), new OptimizeCSSAssertsPlugin({})],
   },
 };
