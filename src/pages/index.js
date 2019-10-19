@@ -1,11 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { hot } from 'react-hot-loader/root';
-import './index.css';
-import routes from './routes';
-import NotFind from './404';
+// import { hot } from 'react-hot-loader/root';
+import routes from '@/pages/routes';
+import NotFind from '@/pages/404';
+import '@/pages/index.css';
 
 const App = () => {
+  console.log(2212);
   return (
     <Switch>
       {routes.map(route => (
@@ -17,4 +18,5 @@ const App = () => {
   );
 };
 
-export default hot(App);
+export default App;
+// export default hot(App);

@@ -18,7 +18,8 @@ const findLoadings = bindEffects(actionCreators);
 )
 class StoreDemo extends React.Component {
   render() {
-    const { counter, actions, effectLoadings } = this.props;
+    const { counter, actions = {}, effectLoadings = {} } = this.props;
+    console.log(666881);
     return (
       <Counter
         className={stylesCommon.container}

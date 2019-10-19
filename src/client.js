@@ -6,11 +6,12 @@ import createLoading from 'dva-loading';
 import { BrowserRouter } from 'react-router-dom';
 import * as history from 'history';
 import { register } from 'register-service-worker';
+import { hot } from 'react-hot-loader/root';
 import useModules from '@/models';
 import RouteApp from '@/pages';
 
 // eslint-disable-next-line no-undef
-const runtimeTarget = (RUNTIME_TARGET || '').toLocaleLowerCase();
+const runtimeTarget = (process.env.REACT_APP_RUNTIME_TARGET || '').toLocaleLowerCase();
 const domRender = runtimeTarget === 'ssr' ? ReactDOM.hydrate : ReactDOM.render;
 // eslint-disable-next-line no-underscore-dangle
 const preloadedState = window.__PRELOADED_STATE__ || {};
@@ -22,30 +23,38 @@ const app = dva({
 app.use(createLoading());
 useModules(app);
 
+app.router(() => {
+  return (
+    <BrowserRouter>
+      <RouteApp />
+    </BrowserRouter>
+  );
+});
+const App = app.start();
+
 function render() {
-  app.router(() => {
-    return (
-      <BrowserRouter>
-        <RouteApp />
-      </BrowserRouter>
-    );
-  });
-  const App = app.start();
-  domRender(
+  // domRender(
+  //   <HelmetProvider>
+  //     <App />
+  //   </HelmetProvider>,
+  //   document.querySelector('#root'),
+  // );
+  console.log('client');
+  const MyApp = hot(() => (
     <HelmetProvider>
       <App />
-    </HelmetProvider>,
-    document.querySelector('#root'),
-  );
+    </HelmetProvider>
+  ));
+  domRender(<MyApp />, document.querySelector('#root'));
 }
 
 render();
 
-if (module.hot) {
-  module.hot.accept('./pages', () => {
-    render();
-  });
-}
+// if (module.hot) {
+//   module.hot.accept('./App.js', () => {
+//     render();
+//   });
+// }
 
 if (!navigator.onLine) {
   console.log('offline');

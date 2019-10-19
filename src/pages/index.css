@@ -1,4 +1,6 @@
-* {
-  padding: 0;
+@import "normalize.css";
+
+html, body {
   margin: 0;
+  padding: 0;
 }

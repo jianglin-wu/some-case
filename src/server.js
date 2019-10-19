@@ -13,7 +13,7 @@ import render from '@/ssr/render';
 import routes from '@/pages/routes';
 import pkg from '../package.json';
 import useModules from '@/models';
-import RouteApp from '@/pages';
+import RouteApp from '@/pages'
 
 // request https 不检查证书
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;

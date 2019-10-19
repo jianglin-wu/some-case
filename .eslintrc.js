@@ -19,6 +19,7 @@ module.exports = {
   },
   plugins: ['react', 'prettier'],
   rules: {
+    'strict': [0],
     'no-use-before-define': 1,
     'prettier/prettier': 2,
     'import/no-unresolved': [2, { ignore: ['^@/'] }],
