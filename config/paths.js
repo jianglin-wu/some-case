@@ -54,8 +54,8 @@ const moduleFileExtensions = [
 
 // Resolve file paths in the same order as webpack
 const resolveModule = (resolveFn, filePath) => {
-  const extension = moduleFileExtensions.find(extension =>
-    fs.existsSync(resolveFn(`${filePath}.${extension}`)),
+  const extension = moduleFileExtensions.find(ext =>
+    fs.existsSync(resolveFn(`${filePath}.${ext}`)),
   );
 
   if (extension) {
@@ -70,8 +70,10 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('dist'),
+  appLib: resolveApp('lib'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
+  appSsrServer: resolveApp('src/ssr/server.js'),
   appIndexJs: resolveModule(resolveApp, 'src/client'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),

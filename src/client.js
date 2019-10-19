@@ -1,60 +1,35 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { HelmetProvider } from 'react-helmet-async';
 import dva from 'dva';
 import createLoading from 'dva-loading';
-import { BrowserRouter } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import * as history from 'history';
 import { register } from 'register-service-worker';
-import { hot } from 'react-hot-loader/root';
+import { setConfig } from 'react-hot-loader';
 import useModules from '@/models';
-import RouteApp from '@/pages';
+import App from '@/App';
+
+setConfig({
+  logLevel: 'debug',
+  trackTailUpdates: false, // 禁止 react-hot-loader 在被装饰器包装的组件更新时会提示警告
+});
+
+const app = dva({
+  history: history.createBrowserHistory,
+  initialState: window.__PRELOADED_STATE__ || {}, // eslint-disable-line no-underscore-dangle
+});
+
+app.use(createLoading());
+
+useModules(app);
+
+app.router(() => <App />);
+
+const Main = app.start();
 
 // eslint-disable-next-line no-undef
 const runtimeTarget = (process.env.REACT_APP_RUNTIME_TARGET || '').toLocaleLowerCase();
 const domRender = runtimeTarget === 'ssr' ? ReactDOM.hydrate : ReactDOM.render;
-// eslint-disable-next-line no-underscore-dangle
-const preloadedState = window.__PRELOADED_STATE__ || {};
-
-const app = dva({
-  history: history.createBrowserHistory,
-  initialState: preloadedState,
-});
-app.use(createLoading());
-useModules(app);
-
-app.router(() => {
-  return (
-    <BrowserRouter>
-      <RouteApp />
-    </BrowserRouter>
-  );
-});
-const App = app.start();
-
-function render() {
-  // domRender(
-  //   <HelmetProvider>
-  //     <App />
-  //   </HelmetProvider>,
-  //   document.querySelector('#root'),
-  // );
-  console.log('client');
-  const MyApp = hot(() => (
-    <HelmetProvider>
-      <App />
-    </HelmetProvider>
-  ));
-  domRender(<MyApp />, document.querySelector('#root'));
-}
-
-render();
-
-// if (module.hot) {
-//   module.hot.accept('./App.js', () => {
-//     render();
-//   });
-// }
+domRender(<Main />, document.querySelector('#root'));
 
 if (!navigator.onLine) {
   console.log('offline');

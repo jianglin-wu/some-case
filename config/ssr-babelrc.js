@@ -1,8 +1,9 @@
 // 仅用于 SSR 模式的 bable 配置
 const config = require('./config');
+const paths = require('./paths');
 
-const { srcPath } = config.paths;
 const { localIdentName } = config.style;
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   presets: ['@babel/preset-env', '@babel/preset-react'],
@@ -10,9 +11,9 @@ module.exports = {
     [
       'module-resolver',
       {
-        root: [srcPath],
+        root: [paths.appSrc],
         alias: {
-          '@': srcPath,
+          '@': isProduction ? paths.appSrc : paths.appLib,
         },
       },
     ],

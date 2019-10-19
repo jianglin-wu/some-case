@@ -131,6 +131,8 @@ module.exports = function configFactory(webpackEnv) {
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     entry: [
+      // 热更新，让 React 组件 state 也能保持
+      isEnvDevelopment && require.resolve('react-hot-loader/patch'),
       // Include an alternative client for WebpackDevServer. A client's job is to
       // connect to WebpackDevServer by a socket and get notified about changes.
       // When you save a file, the client will either apply hot updates (in case
@@ -142,8 +144,6 @@ module.exports = function configFactory(webpackEnv) {
       // require.resolve('webpack-dev-server/client') + '?/',
       // require.resolve('webpack/hot/dev-server'),
       isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'),
-      // 热更新，让 React 组件 state 也能保持
-      isEnvDevelopment && require.resolve('react-hot-loader/patch'),
       // Finally, this is your app's code:
       paths.appIndexJs,
       // We include the app code last so that if there is a runtime error during
@@ -267,6 +267,7 @@ module.exports = function configFactory(webpackEnv) {
         .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
         '@': paths.appSrc,
+        // 以下别名开启在 hot-reload 时将会出现两次 render
         'react-dom': '@hot-loader/react-dom',
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
@@ -518,6 +519,7 @@ module.exports = function configFactory(webpackEnv) {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the Webpack build.
+      // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
       isEnvProduction &&
         new WorkboxWebpackPlugin.InjectManifest({
           swDest: path.resolve(paths.appBuild, 'service-worker.js'),
