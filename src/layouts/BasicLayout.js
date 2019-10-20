@@ -1,28 +1,39 @@
-import React, { Fragment } from 'react';
-import { Helmet } from 'react-helmet-async';
-import Header from '@/components/Header';
+import React from 'react';
+// import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import ProLayout, {
+  MenuDataItem,
+  BasicLayoutProps as ProLayoutProps,
+  Settings,
+} from '@ant-design/pro-layout';
+import logo from '@/assets/hx-icon.svg';
 
-export default function BasicLayoutDecorator(options = {}) {
-  const { title = 'Hello', HelmetComponent } = options;
-  return function Decorator(Target) {
-    const BasicLayout = () => {
-      return (
-        <Fragment>
-          {HelmetComponent ? (
-            <HelmetComponent />
-          ) : (
-            <Helmet>
-              <title>{title}</title>
-            </Helmet>
-          )}
-          <Header title={title} />
-          <Target />
-        </Fragment>
-      );
-    };
-    if (Target.getInitialProps) {
-      BasicLayout.getInitialProps = Target.getInitialProps;
-    }
-    return BasicLayout;
-  };
-}
+const footerRender = () => {
+  return <div>Copyright 嗨学互联网中心</div>;
+};
+
+const Title = ({ text }) => (
+  <span style={{ color: '#007aff', marginBottom: -8, display: 'block' }}>{text}</span>
+);
+
+const BasicLayout = props => {
+  const { children, childRoutes } = props;
+  return (
+    <ProLayout
+      title={<Title text="fe-antd-demo" />}
+      logo={logo}
+      menuItemRender={(menuItemProps, defaultDom) => {
+        if (menuItemProps.isUrl) {
+          return defaultDom;
+        }
+        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
+      }}
+      menuDataRender={() => childRoutes}
+      footerRender={footerRender}
+    >
+      {children}
+    </ProLayout>
+  );
+};
+
+export default BasicLayout;

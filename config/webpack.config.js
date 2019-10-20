@@ -108,12 +108,7 @@ module.exports = function configFactory(webpackEnv) {
       },
     ].filter(Boolean);
     if (preProcessor) {
-      loaders.push({
-        loader: require.resolve(preProcessor),
-        options: {
-          sourceMap: isEnvProduction && shouldUseSourceMap,
-        },
-      });
+      loaders.push(preProcessor);
     }
     return loaders;
   };
@@ -371,6 +366,7 @@ module.exports = function configFactory(webpackEnv) {
             // using the extension .module.css
             {
               test: cssRegex,
+              exclude: /node_modules/,
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
@@ -378,10 +374,20 @@ module.exports = function configFactory(webpackEnv) {
                 getLocalIdent: getCSSModuleLocalIdent,
               }),
             },
+            {
+              test: cssRegex,
+              include: /node_modules/,
+              use: getStyleLoaders({
+                importLoaders: 1,
+                sourceMap: isEnvProduction && shouldUseSourceMap,
+                getLocalIdent: getCSSModuleLocalIdent,
+              }),
+            },
             // Adds support for CSS Modules, but using SASS
             // using the extension .module.scss or .module.sass
             {
               test: sassRegex,
+              exclude: /node_modules/,
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
@@ -389,18 +395,64 @@ module.exports = function configFactory(webpackEnv) {
                   modules: true,
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
-                'sass-loader',
+                {
+                  loader: require.resolve('sass-loader'),
+                  options: {
+                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                  },
+                },
+              ),
+            },
+            {
+              test: sassRegex,
+              include: /node_modules/,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  getLocalIdent: getCSSModuleLocalIdent,
+                },
+                {
+                  loader: require.resolve('sass-loader'),
+                  options: {
+                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                  },
+                },
               ),
             },
             {
               test: lessRegex,
+              exclude: /node_modules/,
               use: getStyleLoaders(
                 {
                   importLoaders: 2,
                   modules: true,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                 },
-                'less-loader',
+                {
+                  loader: require.resolve('less-loader'),
+                  options: {
+                    javascriptEnabled: true,
+                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                  },
+                },
+              ),
+            },
+            {
+              test: lessRegex,
+              include: /node_modules/,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                },
+                {
+                  loader: require.resolve('less-loader'),
+                  options: {
+                    javascriptEnabled: true,
+                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                  },
+                },
               ),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.

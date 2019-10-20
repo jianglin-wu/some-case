@@ -1,9 +1,7 @@
 import React from 'react';
-import BasicLayout from '@/layouts/BasicLayout';
 import stylesCommon from '@/components/styles';
 import Counter from '@/components/Counter';
 
-@BasicLayout({ title: 'State' })
 class StateDemo extends React.Component {
   state = {
     count: 0,

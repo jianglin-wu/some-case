@@ -22,6 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/pro-layout": "^4.5.16",
     "@babel/runtime": "^7.6.2",
     "classnames": "^2.2.6",
     "core-js": "^3.2.1",
@@ -87,6 +88,7 @@
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "^4.0.0-beta.8",
     "is-wsl": "^2.1.1",
+    "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.8.0",
     "nodemon": "^1.19.2",

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import BasicLayout from '@/layouts/BasicLayout';
 import stylesCommon from '@/components/styles';
 import Counter from '@/components/Counter';
 import { bindActionCreators, bindEffects } from '@/components/utils';
@@ -8,7 +7,6 @@ import { actionCreators } from '@/models/counter';
 
 const findLoadings = bindEffects(actionCreators);
 
-@BasicLayout({ title: 'Saga' })
 @connect(
   ({ counter, loading }) => ({
     counter,

@@ -1,1 +1,1 @@
-export { default } from './index.css';
+export { default } from './index.less';

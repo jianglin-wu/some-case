@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import stylesCommon from '@/components/styles';
-import styles from './index.css';
+import styles from './index.less';
 
 const clsNav = classnames(styles.nav, stylesCommon.container);
 export default class Header extends React.PureComponent {
