@@ -1,5 +1,5 @@
 import React from 'react';
-import stylesCommon from '@/components/styles';
+import '@/components/styles/index.less';
 import Counter from '@/components/Counter';
 
 class StateDemo extends React.Component {
@@ -27,7 +27,7 @@ class StateDemo extends React.Component {
     const { count } = this.state;
     return (
       <Counter
-        className={stylesCommon.container}
+        styleName="container"
         count={count}
         onIncrement={this.onIncrement}
         onDecrement={this.onDecrement}

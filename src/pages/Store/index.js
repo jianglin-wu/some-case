@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import stylesCommon from '@/components/styles';
+import '@/components/styles/index.less';
 import Counter from '@/components/Counter';
 import { bindActionCreators } from '@/components/utils';
 import { actionCreators } from '@/models/counter';
@@ -14,7 +14,7 @@ class StoreDemo extends React.Component {
     const { counter, actions } = this.props;
     return (
       <Counter
-        className={stylesCommon.container}
+        styleName="container"
         count={counter}
         onIncrement={actions.increment}
         onDecrement={actions.decrement}

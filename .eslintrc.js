@@ -28,5 +28,6 @@ module.exports = {
     'react/jsx-fragments': [2, 'element'],
     'react/jsx-one-expression-per-line': [0], // 与 prettier 规则冲突
     'react/jsx-curly-brace-presence': [0], // 与 prettier 规则冲突
+    // import/no-extraneous-dependencies 待定
   },
 };

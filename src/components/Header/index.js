@@ -1,16 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import classnames from 'classnames';
-import stylesCommon from '@/components/styles';
-import styles from './index.less';
+// import stylesCommon from '@/components/styles';
+import './index.less';
 
-const clsNav = classnames(styles.nav, stylesCommon.container);
-export default class Header extends React.PureComponent {
+class Header extends React.PureComponent {
   render() {
     const { title } = this.props;
     return (
-      <header className={styles.header}>
-        <nav className={clsNav}>
+      <header styleName="header">
+        <nav styleName="nav container">
           <Link to="/">Home</Link>
           {' | '}
           <Link to="/archives">Archives</Link>
@@ -18,8 +16,10 @@ export default class Header extends React.PureComponent {
             About
           </Link>
         </nav>
-        {title && <h1 className={styles.title}>{title}</h1>}
+        {title && <h1 styleName="title">{title}</h1>}
       </header>
     );
   }
 }
+
+export default Header;

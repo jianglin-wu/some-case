@@ -1,9 +1,10 @@
 import React from 'react';
-import stylesCommon from '@/components/styles';
+import '@/components/styles/index.less';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class Home extends React.Component {
   render() {
-    return <div className={stylesCommon.container}>hello world</div>;
+    return <div styleName="container">hello world</div>;
   }
 }
 

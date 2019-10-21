@@ -20,7 +20,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+
 // eslint-disable-next-line import/order
 const paths = require('./paths');
 // eslint-disable-next-line import/order
@@ -31,6 +31,9 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const postcssNormalize = require('postcss-normalize');
+const config = require('./config');
+
+const { localIdentName } = config.style;
 
 // 此环境变量可关闭 Source maps（将占用大量资源，并且可能导致大型源文件的内存不足问题。）
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -318,19 +321,7 @@ module.exports = function configFactory(webpackEnv) {
               options: {
                 customize: require.resolve('babel-preset-react-app/webpack-overrides'),
 
-                plugins: [
-                  [
-                    require.resolve('babel-plugin-named-asset-import'),
-                    {
-                      loaderMap: {
-                        svg: {
-                          ReactComponent: '@svgr/webpack?-svgo,+ref![path]',
-                        },
-                      },
-                    },
-                  ],
-                  'react-hot-loader/babel',
-                ],
+                plugins: [],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
                 // directory for faster rebuilds.
@@ -371,7 +362,7 @@ module.exports = function configFactory(webpackEnv) {
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
+                localIdentName,
               }),
             },
             {
@@ -380,7 +371,6 @@ module.exports = function configFactory(webpackEnv) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
-                getLocalIdent: getCSSModuleLocalIdent,
               }),
             },
             // Adds support for CSS Modules, but using SASS
@@ -393,7 +383,7 @@ module.exports = function configFactory(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
+                  localIdentName,
                 },
                 {
                   loader: require.resolve('sass-loader'),
@@ -410,7 +400,6 @@ module.exports = function configFactory(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-                  getLocalIdent: getCSSModuleLocalIdent,
                 },
                 {
                   loader: require.resolve('sass-loader'),
@@ -428,6 +417,7 @@ module.exports = function configFactory(webpackEnv) {
                   importLoaders: 2,
                   modules: true,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
+                  localIdentName,
                 },
                 {
                   loader: require.resolve('less-loader'),
