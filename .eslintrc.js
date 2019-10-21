@@ -5,21 +5,18 @@ module.exports = {
     commonjs: true,
     es6: true,
     node: true,
+    jest: true,
   },
   extends: ['airbnb', 'plugin:prettier/recommended'],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 2018,
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['prettier', 'import', 'react'],
   rules: {
-    'strict': [0],
+    strict: [0],
     'no-use-before-define': 1,
     'prettier/prettier': 2,
     'import/no-unresolved': [2, { ignore: ['^@/'] }],
