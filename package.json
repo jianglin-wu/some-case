@@ -1,6 +1,6 @@
 {
-  "name": "some-case",
-  "version": "1.0.0",
+  "name": "fe-antd-template",
+  "version": "0.0.0-auto-release",
   "description": "React 项目模板（基于 create-react-app）",
   "scripts": {
     "analyze": "source-map-explorer 'dist/static/js/*.js'",
