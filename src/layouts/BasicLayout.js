@@ -1,6 +1,7 @@
 import React from 'react';
 // import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import appconfig from 'appconfig';
 import ProLayout from '@ant-design/pro-layout';
 import logo from '@/assets/hx-icon.svg';
 
@@ -12,7 +13,7 @@ const BasicLayout = props => {
   const { children, childRoutes } = props;
   return (
     <ProLayout
-      title={<Title text="fe-antd-demo" />}
+      title={<Title text={appconfig.title} />}
       logo={logo}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (menuItemProps.isUrl) {

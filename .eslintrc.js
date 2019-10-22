@@ -19,7 +19,7 @@ module.exports = {
     strict: [0],
     'no-use-before-define': 1,
     'prettier/prettier': 2,
-    'import/no-unresolved': [2, { ignore: ['^@/'] }],
+    'import/no-unresolved': [2, { ignore: ['^@/', 'appconfig'] }],
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx'] }],
     'react/prop-types': 1,
     'react/prefer-stateless-function': 1,

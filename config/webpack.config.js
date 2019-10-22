@@ -31,6 +31,8 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const postcssNormalize = require('postcss-normalize');
+const appconfig = require('umi-plugin-conf-inject/lib/conf');
+const appconfigEnvOptions = require('umi-plugin-conf-inject/lib/utils');
 const config = require('./config');
 
 const { localIdentName } = config.style;
@@ -61,7 +63,10 @@ module.exports = function configFactory(webpackEnv) {
   // Webpack uses `publicPath` to determine where the app is being served from.
   // It requires a trailing slash, or the file assets will get an incorrect path.
   // In development, we always serve from the root. This makes config easier.
-  const publicPath = isEnvProduction ? paths.servedPath : isEnvDevelopment && '/';
+  let publicPath = isEnvProduction ? paths.servedPath : isEnvDevelopment && '/';
+  const useLocalConfig = isEnvDevelopment || process.env.LOCAL_CONFIG;
+  publicPath =
+    !useLocalConfig && appconfig.publicPath !== undefined ? appconfig.publicPath : publicPath;
   // Some apps do not use client-side routing with pushState.
   // For these, "homepage" can be set to "." to enable relative asset paths.
   const shouldUseRelativeAssetPaths = publicPath === './';
@@ -270,6 +275,8 @@ module.exports = function configFactory(webpackEnv) {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
+        __application: paths.appPath,
+        appconfig: require.resolve('umi-plugin-conf-inject/lib/appconfig-entry.js'),
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -283,6 +290,11 @@ module.exports = function configFactory(webpackEnv) {
         new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
       ],
     },
+    externals: useLocalConfig
+      ? {}
+      : {
+          appconfig: 'window._appconfig',
+        },
     resolveLoader: {
       plugins: [
         // Also related to Plug'n'Play, but this time it tells Webpack to load its loaders
@@ -445,6 +457,10 @@ module.exports = function configFactory(webpackEnv) {
                 },
               ),
             },
+            {
+              test: /\.properties$/,
+              use: ['json-loader', 'enhanced-properties-loader'],
+            },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.
@@ -456,7 +472,7 @@ module.exports = function configFactory(webpackEnv) {
               // its runtime that would otherwise be processed through "file" loader.
               // Also exclude `html` and `json` extensions so they get processed
               // by webpacks internal loaders.
-              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /\.properties$/],
               options: {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
@@ -501,7 +517,7 @@ module.exports = function configFactory(webpackEnv) {
       // In production, it will be an empty string unless you specify "homepage"
       // in `package.json`, in which case it will be the pathname of that URL.
       // In development, this will be an empty string.
-      new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      new InterpolateHtmlPlugin(HtmlWebpackPlugin, { ...env.raw, ...appconfig }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       isEnvProduction &&
@@ -515,7 +531,10 @@ module.exports = function configFactory(webpackEnv) {
       // It is absolutely essential that NODE_ENV is set to production
       // during a production build.
       // Otherwise React will be compiled in the very slow development mode.
-      new webpack.DefinePlugin(env.stringified),
+      new webpack.DefinePlugin({
+        ...env.stringified,
+        __ENV_OPTIONS: appconfigEnvOptions,
+      }),
       // This is necessary to emit hot updates (currently CSS only):
       isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
       // Watcher doesn't work well if you mistype casing in a path so we use
