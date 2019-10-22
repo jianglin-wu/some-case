@@ -1,3 +1,3 @@
 # fe-antd-demo
 
-react 项目模板
+React 项目模板
