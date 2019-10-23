@@ -18,6 +18,7 @@ const safePostCssParser = require('postcss-safe-parser');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 
@@ -120,6 +121,11 @@ module.exports = function configFactory(webpackEnv) {
     }
     return loaders;
   };
+
+  // 动态化配置的配置文件路径
+  const confinjectPath = path.resolve(paths.appPath, '.confinjectrc');
+  // 文件存在则拷贝到 dist 目录，在配置替换的时候使用
+  const isConfinjectPathExists = fs.existsSync(confinjectPath);
 
   return {
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
@@ -613,6 +619,7 @@ module.exports = function configFactory(webpackEnv) {
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
+      isConfinjectPathExists && new CopyPlugin([{ from: confinjectPath, to: paths.appBuild }]),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
