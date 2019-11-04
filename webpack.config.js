@@ -100,6 +100,7 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, './src'),
       'react-dom': '@hot-loader/react-dom',
+      'query-string': 'qs',
     },
   },
 };
