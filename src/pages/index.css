@@ -2,3 +2,8 @@
   padding: 0;
   margin: 0;
 }
+
+:global(.container) {
+  width: 1000px;
+  margin: 0 auto;
+}
